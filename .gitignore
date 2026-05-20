@@ -1,48 +1,11 @@
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-node_modules
-dist
-dist-ssr
-*.local
-
-.vscode/*
-.vscode/launch.json
-!.vscode/extensions.json
-.idea
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+*.log
+.vite
 
-/.history
-/.cache
-/build
-functions/build/
-.env.local
-.env
-.dev.vars
-*.vars
-.wrangler
-_worker.bundle
+# Orphan install at repo root (app lives in builder/)
+/node_modules
 
-Modelfile
-modelfiles
-
-# docs ignore
-site
-
-# commit file ignore
-app/commit.json
-changelogUI.md
-docs/instructions/Roadmap.md
-.cursorrules
-*.md
-.qodo
+# Optional local env at monorepo root
+/.env
+/.env.local

@@ -16,6 +16,9 @@ jobs:
     name: Quality Analysis
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: builder
 
     steps:
       - name: Checkout repository
@@ -66,13 +69,16 @@ jobs:
         if: always()
         with:
           name: complexity-report
-          path: complexity-report/
+          path: builder/complexity-report/
           retention-days: 7
 
   accessibility-tests:
     name: Accessibility Tests
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: builder
 
     steps:
       - name: Checkout repository
@@ -99,6 +105,9 @@ jobs:
     name: Performance Audit
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: builder
 
     steps:
       - name: Checkout repository
@@ -124,7 +133,7 @@ jobs:
         if: always()
         with:
           name: lighthouse-report
-          path: lighthouse-report.html
+          path: builder/lighthouse-report.html
           retention-days: 7
 
   pr-size-check:

@@ -105,9 +105,9 @@ jobs:
       - name: Validate changelog entry
         if: contains(github.event.pull_request.labels.*.name, 'stable-release')
         run: |
-          if ! grep -q "${{ github.event.pull_request.number }}" CHANGES.md; then
+          if ! grep -q "${{ github.event.pull_request.number }}" builder/CHANGES.md; then
             echo "❌ No changelog entry found for PR #${{ github.event.pull_request.number }}"
-            echo "Please add an entry to CHANGES.md"
+            echo "Please add an entry to builder/CHANGES.md"
             exit 1
           else
             echo "✓ Changelog entry found"

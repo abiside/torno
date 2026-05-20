@@ -24,9 +24,11 @@ runs:
       with:
         node-version: ${{ inputs.node-version }}
         cache: pnpm
+        cache-dependency-path: builder/pnpm-lock.yaml
 
     - name: Install dependencies and build project
       shell: bash
       run: |
+        cd builder
         pnpm install
         pnpm run build

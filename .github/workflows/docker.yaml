@@ -55,7 +55,8 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context: ./builder
+          file: ./builder/Dockerfile
           platforms: linux/amd64,linux/arm64
           target: bolt-ai-production
           push: true

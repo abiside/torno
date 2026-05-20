@@ -55,20 +55,25 @@ jobs:
   dependency-scan:
     name: Dependency Vulnerability Scan
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: builder
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.18.0'
-
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: '9.14.4'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.18.0'
+          cache: pnpm
+          cache-dependency-path: builder/pnpm-lock.yaml
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -80,7 +85,7 @@ jobs:
       - name: Generate SBOM
         uses: anchore/sbom-action@v0
         with:
-          path: ./
+          path: builder
           format: spdx-json
           artifact-name: sbom.spdx.json
 

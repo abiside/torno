@@ -18,7 +18,10 @@ permissions:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    
+    defaults:
+      run:
+        working-directory: builder
+
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest] # Use unsigned macOS builds for now
@@ -29,16 +32,18 @@ jobs:
       - name: Check out Git repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-
       - name: Install pnpm
         uses: pnpm/action-setup@v2
         with:
           version: 9.14.4
           run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+          cache-dependency-path: builder/pnpm-lock.yaml
 
       - name: Get pnpm store directory
         shell: bash
@@ -89,10 +94,10 @@ jobs:
           # For tag pushes, name the release as "Release <tagname>", otherwise "Electron Release".
           name: ${{ (github.event_name == 'push' && github.ref_type == 'tag') && format('Release {0}', github.ref_name) || 'Electron Release' }}
           files: |
-            dist/*.exe
-            dist/*.dmg
-            dist/*.deb
-            dist/*.AppImage
-            dist/*.zip
+            builder/dist/*.exe
+            builder/dist/*.dmg
+            builder/dist/*.deb
+            builder/dist/*.AppImage
+            builder/dist/*.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
